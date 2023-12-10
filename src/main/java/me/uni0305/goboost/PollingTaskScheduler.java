@@ -20,6 +20,7 @@ public class PollingTaskScheduler {
 
     /**
      * Returns whether the task is running or not.
+     *
      * @return true if the task is running, false otherwise.
      */
     public static boolean isRunning() {
@@ -28,6 +29,7 @@ public class PollingTaskScheduler {
 
     /**
      * Starts the task.
+     *
      * @param plugin The plugin instance.
      */
     public static void runTask(@NotNull JavaPlugin plugin) {
@@ -47,6 +49,7 @@ public class PollingTaskScheduler {
 
     /**
      * Runs the task consumer.
+     *
      * @param plugin The plugin instance.
      * @return true if the task is successful, false otherwise.
      */

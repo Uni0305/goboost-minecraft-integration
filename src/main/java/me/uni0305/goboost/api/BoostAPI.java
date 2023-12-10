@@ -33,7 +33,8 @@ public class BoostAPI {
                 InputStreamReader reader = new InputStreamReader(stream);
                 BoostEventResponse response = BoostEventResponse.fromJson(reader);
                 if (response == null) throw new RuntimeException("Not a valid boost event response");
-                else if (!response.isSuccess()) throw new RuntimeException("Boost event response is not successful: " + response.status());
+                else if (!response.isSuccess())
+                    throw new RuntimeException("Boost event response is not successful: " + response.status());
                 else return response;
             } catch (IOException e) {
                 LOGGER.error("An error occurred while fetching boost events", e);
