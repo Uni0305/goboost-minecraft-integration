@@ -32,6 +32,7 @@ public class BoostIntegrationPlugin extends JavaPlugin {
             try {
                 response = BoostAPI.getEvents(cursor.get()).get();
             } catch (InterruptedException | ExecutionException e) {
+                task.cancel();
                 getSLF4JLogger().error("An error occurred while fetching boost events", e);
                 return;
             }
@@ -42,7 +43,10 @@ public class BoostIntegrationPlugin extends JavaPlugin {
             if (notifications == null || notifications.isEmpty()) return;
 
             boolean called = new AsyncReceiveBoostNotificationEvent(notifications).callEvent();
-            if (!called) getSLF4JLogger().error("An error occurred while calling AsyncReceiveBoostNotificationEvent");
+            if (!called) {
+                task.cancel();
+                getSLF4JLogger().error("An error occurred while calling AsyncReceiveBoostNotificationEvent");
+            }
         }, 0, 1, TimeUnit.SECONDS);
     }
 }
