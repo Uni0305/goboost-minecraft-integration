@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.CompletableFuture;
 
 public class YamlConfigurator {
     private static final @NotNull String FILENAME = "config.yml";
@@ -18,15 +19,17 @@ public class YamlConfigurator {
     private static @Nullable File file = null;
     private static @Nullable FileConfiguration config = null;
 
-    public static void reloadConfig() {
-        if (file == null) file = new File(PLUGIN.getDataFolder(), FILENAME);
-        config = YamlConfiguration.loadConfiguration(file);
+    public static @NotNull CompletableFuture<Void> reloadConfig() {
+        return CompletableFuture.runAsync(() -> {
+            if (file == null) file = new File(PLUGIN.getDataFolder(), FILENAME);
+            config = YamlConfiguration.loadConfiguration(file);
 
-        InputStream resource = PLUGIN.getResource(FILENAME);
-        if (resource == null) return;
-        InputStreamReader reader = new InputStreamReader(resource);
-        YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
-        config.setDefaults(defaults);
+            InputStream resource = PLUGIN.getResource(FILENAME);
+            if (resource == null) return;
+            InputStreamReader reader = new InputStreamReader(resource);
+            YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
+            config.setDefaults(defaults);
+        });
     }
 
     public static @NotNull FileConfiguration getConfig() {
@@ -34,20 +37,24 @@ public class YamlConfigurator {
         return config;
     }
 
-    public static void saveConfig() {
-        if (file == null || config == null) return;
-        try {
-            getConfig().save(file);
-            PLUGIN.getSLF4JLogger().debug("Saved config to " + file);
-        } catch (IOException e) {
-            PLUGIN.getSLF4JLogger().error("Could not save config to " + file, e);
-        }
+    public static @NotNull CompletableFuture<Void> saveConfig() {
+        return CompletableFuture.runAsync(() -> {
+            if (file == null || config == null) return;
+            try {
+                getConfig().save(file);
+                PLUGIN.getSLF4JLogger().debug("Saved config to " + file);
+            } catch (IOException e) {
+                PLUGIN.getSLF4JLogger().error("Could not save config to " + file, e);
+            }
+        });
     }
 
-    public static void saveDefaultConfig() {
+    public static @NotNull CompletableFuture<Void> saveDefaultConfig() {
         if (file == null) file = new File(PLUGIN.getDataFolder(), FILENAME);
-        if (file.exists()) return;
-        PLUGIN.saveResource(FILENAME, false);
-        PLUGIN.getSLF4JLogger().debug("Saved default config to " + FILENAME);
+        return CompletableFuture.runAsync(() -> {
+            if (file.exists()) return;
+            PLUGIN.saveResource(FILENAME, false);
+            PLUGIN.getSLF4JLogger().debug("Saved default config to " + FILENAME);
+        });
     }
 }
