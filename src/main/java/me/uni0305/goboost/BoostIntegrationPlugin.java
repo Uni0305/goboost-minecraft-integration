@@ -1,11 +1,13 @@
 package me.uni0305.goboost;
 
 import me.uni0305.goboost.api.BoostAPI;
+import me.uni0305.goboost.api.BoostEventResponse;
 import me.uni0305.goboost.api.BoostNotificationData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,16 +27,22 @@ public class BoostIntegrationPlugin extends JavaPlugin {
 
     private void schedulePollingTask() {
         AtomicReference<String> cursor = new AtomicReference<>("");
-        getServer().getAsyncScheduler().runAtFixedRate(this, (task) -> BoostAPI.getEvents(cursor.get()).thenAccept((response) -> {
-            cursor.set(response.cursor());
-            List<BoostNotificationData> notifications = response.notifications();
+        getServer().getAsyncScheduler().runAtFixedRate(this, (task) -> {
+            BoostEventResponse response;
+            try {
+                response = BoostAPI.getEvents(cursor.get()).get();
+            } catch (InterruptedException | ExecutionException e) {
+                getSLF4JLogger().error("An error occurred while fetching boost events", e);
+                return;
+            }
+            if (response == null || !response.isSuccess()) return;
 
-            if (notifications.isEmpty()) return;
+            cursor.set(response.cursor());
+            List<@NotNull BoostNotificationData> notifications = response.notifications();
+            if (notifications == null || notifications.isEmpty()) return;
+
             boolean called = new AsyncReceiveBoostNotificationEvent(notifications).callEvent();
-            if (!called) getSLF4JLogger().error("An error occurred while calling the BoostNotificationEvent");
-        }).exceptionally((e) -> {
-            getSLF4JLogger().error("An error occurred while polling for boost notifications", e);
-            return null;
-        }), 0, 1, TimeUnit.SECONDS);
+            if (!called) getSLF4JLogger().error("An error occurred while calling AsyncReceiveBoostNotificationEvent");
+        }, 0, 1, TimeUnit.SECONDS);
     }
 }
