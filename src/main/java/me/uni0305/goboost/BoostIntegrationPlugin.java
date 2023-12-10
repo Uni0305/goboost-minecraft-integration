@@ -9,6 +9,7 @@ public class BoostIntegrationPlugin extends JavaPlugin {
     public void onEnable() {
         YamlConfigurator.saveDefaultConfig();
         YamlConfigurator.reloadConfig();
+        new BoostEventListener(this);
     }
 
     public static @NotNull JavaPlugin getPlugin() {
