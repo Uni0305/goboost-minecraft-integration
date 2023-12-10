@@ -1,5 +1,5 @@
 # Boost Minecraft Integration Plugin
-![](https://img.shields.io/github/license/Uni0305/goboost-minecraft-integration)
+[![](https://img.shields.io/github/license/Uni0305/goboost-minecraft-integration)](LICENSE.md)
 [![](https://jitpack.io/v/Uni0305/goboost-minecraft-integration.svg)](https://jitpack.io/#Uni0305/goboost-minecraft-integration)
 
 ## Installation
