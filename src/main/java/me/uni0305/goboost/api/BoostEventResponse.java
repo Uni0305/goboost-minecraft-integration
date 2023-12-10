@@ -12,8 +12,8 @@ import java.util.List;
 public record BoostEventResponse(@SerializedName("ErrorCode") @NotNull String errorCode,
                                  @SerializedName("Cursor") @NotNull String cursor,
                                  @SerializedName("Notifications") @NotNull List<@NotNull BoostNotificationData> notifications) {
-    private static final Gson GSON = new Gson();
-    private static final TypeToken<BoostEventResponse> TYPE_TOKEN = new TypeToken<>() {
+    private static final @NotNull Gson GSON = new Gson();
+    private static final @NotNull TypeToken<BoostEventResponse> TYPE_TOKEN = new TypeToken<>() {
     };
 
     public static @Nullable BoostEventResponse fromJson(@NotNull Reader reader) {
@@ -25,7 +25,7 @@ public record BoostEventResponse(@SerializedName("ErrorCode") @NotNull String er
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return this.toJson();
     }
 }

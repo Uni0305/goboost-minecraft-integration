@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class YamlConfigurator {
-    private static final String FILENAME = "config.yml";
-    private static final JavaPlugin PLUGIN = BoostIntegrationPlugin.getPlugin();
+    private static final @NotNull String FILENAME = "config.yml";
+    private static final @NotNull JavaPlugin PLUGIN = BoostIntegrationPlugin.getPlugin();
 
     private static @Nullable File file = null;
     private static @Nullable FileConfiguration config = null;

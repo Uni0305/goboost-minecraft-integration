@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class BoostAPI {
-    private static final String API_ENDPOINT = "https://integration.goboost.tv";
+    private static final @NotNull String API_ENDPOINT = "https://integration.goboost.tv";
 
     public static @NotNull CompletableFuture<@NotNull BoostEventResponse> getEvents(@NotNull String cursor) throws RuntimeException {
         return CompletableFuture.supplyAsync(() -> {
