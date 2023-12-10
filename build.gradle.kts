@@ -29,3 +29,11 @@ bukkit {
 tasks.runServer {
     minecraftVersion("1.20.2")
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+}
