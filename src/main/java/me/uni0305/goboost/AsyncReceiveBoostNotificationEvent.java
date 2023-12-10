@@ -17,7 +17,7 @@ public class AsyncReceiveBoostNotificationEvent extends Event {
         this.notifications = notifications;
     }
 
-    public static HandlerList getHANDLERS() {
+    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 
