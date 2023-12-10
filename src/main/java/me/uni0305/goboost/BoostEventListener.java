@@ -10,7 +10,7 @@ public class BoostEventListener implements Listener {
     }
 
     @EventHandler
-    public void onReceiveBoostNotfication(AsyncReceiveBoostNotificationEvent event) {
+    public void onReceiveBoostNotification(AsyncReceiveBoostNotificationEvent event) {
         // TODO: Not yet implemented
         BoostIntegrationPlugin.getPlugin().getSLF4JLogger().debug("Received boost notification: " + event.getNotifications());
     }
