@@ -25,8 +25,9 @@ public class BoostAPI {
                 InputStream stream = connection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(stream);
                 BoostEventResponse response = BoostEventResponse.fromJson(reader);
-                if (response == null) throw new IllegalStateException("Invalid response from Boost API");
-                return response;
+                if (response == null) throw new RuntimeException("Invalid boost api response");
+                else if (!response.isSuccess()) throw new RuntimeException("An error occurred while fetching boost events: %s".formatted(response.status()));
+                else return response;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
