@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("maven-publish")
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("xyz.jpenilla.run-paper") version "2.2.2"
 }
