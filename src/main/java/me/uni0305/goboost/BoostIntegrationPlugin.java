@@ -12,6 +12,15 @@ public class BoostIntegrationPlugin extends JavaPlugin {
     public void onEnable() {
         YamlConfigurator.saveDefaultConfig();
         YamlConfigurator.reloadConfig();
+
         new BoostCommand(this);
+        new BoostEventListener(this);
+
+        PollingTaskScheduler.runTask(this);
+    }
+
+    @Override
+    public void onDisable() {
+        PollingTaskScheduler.cancelTask();
     }
 }
