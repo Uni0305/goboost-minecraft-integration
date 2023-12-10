@@ -12,17 +12,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class YamlConfigurator {
-    private static final String filename = "config.yml";
-    private static final JavaPlugin plugin = BoostIntegrationPlugin.getPlugin();
+    private static final String FILENAME = "config.yml";
+    private static final JavaPlugin PLUGIN = BoostIntegrationPlugin.getPlugin();
 
     private static @Nullable File file = null;
     private static @Nullable FileConfiguration config = null;
 
     public static void reloadConfig() {
-        if (file == null) file = new File(plugin.getDataFolder(), filename);
+        if (file == null) file = new File(PLUGIN.getDataFolder(), FILENAME);
         config = YamlConfiguration.loadConfiguration(file);
 
-        InputStream resource = plugin.getResource(filename);
+        InputStream resource = PLUGIN.getResource(FILENAME);
         if (resource == null) return;
         InputStreamReader reader = new InputStreamReader(resource);
         YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
@@ -38,16 +38,16 @@ public class YamlConfigurator {
         if (file == null || config == null) return;
         try {
             getConfig().save(file);
-            plugin.getSLF4JLogger().debug("Saved config to " + file);
+            PLUGIN.getSLF4JLogger().debug("Saved config to " + file);
         } catch (IOException e) {
-            plugin.getSLF4JLogger().error("Could not save config to " + file, e);
+            PLUGIN.getSLF4JLogger().error("Could not save config to " + file, e);
         }
     }
 
     public static void saveDefaultConfig() {
-        if (file == null) file = new File(plugin.getDataFolder(), filename);
+        if (file == null) file = new File(PLUGIN.getDataFolder(), FILENAME);
         if (file.exists()) return;
-        plugin.saveResource(filename, false);
-        plugin.getSLF4JLogger().debug("Saved default config to " + filename);
+        PLUGIN.saveResource(FILENAME, false);
+        PLUGIN.getSLF4JLogger().debug("Saved default config to " + FILENAME);
     }
 }
