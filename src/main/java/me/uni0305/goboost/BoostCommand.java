@@ -25,6 +25,7 @@ public class BoostCommand extends BukkitCommand {
             try {
                 YamlConfigurator.saveDefaultConfig();
                 YamlConfigurator.reloadConfig();
+                if (!PollingTaskScheduler.isRunning()) PollingTaskScheduler.runTask(BoostIntegrationPlugin.getPlugin());
                 sender.sendRichMessage("<green>Successfully reloaded config.</green>");
             } catch (Exception e) {
                 sender.sendRichMessage("<red>An error occurred while reloading config. Please check console for more details.</red>");
