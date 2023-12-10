@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class BoostAPI {
-    private static final String API_ENDPOINT = "https://integration.goboost.tv";
+    private static final @NotNull String API_ENDPOINT = "https://integration.goboost.tv";
 
     public static @NotNull CompletableFuture<@NotNull BoostEventResponse> getEvents(@NotNull String cursor) throws RuntimeException {
         return CompletableFuture.supplyAsync(() -> {
@@ -25,8 +25,9 @@ public class BoostAPI {
                 InputStream stream = connection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(stream);
                 BoostEventResponse response = BoostEventResponse.fromJson(reader);
-                if (response == null) throw new IllegalStateException("Invalid response from Boost API");
-                return response;
+                if (response == null) throw new RuntimeException("Invalid boost api response");
+                else if (!response.isSuccess()) throw new RuntimeException("An error occurred while fetching boost events: %s".formatted(response.status()));
+                else return response;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

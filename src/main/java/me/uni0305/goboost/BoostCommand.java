@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class BoostCommand extends BukkitCommand {
-    public BoostCommand(JavaPlugin plugin) {
+    public BoostCommand(@NotNull JavaPlugin plugin) {
         super("goboost");
         this.setPermission("op");
         plugin.getServer().getCommandMap().register("goboost", this);

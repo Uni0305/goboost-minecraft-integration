@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BoostIntegrationPlugin extends JavaPlugin {
+    public static @NotNull JavaPlugin getPlugin() {
+        return getPlugin(BoostIntegrationPlugin.class);
+    }
 
     @Override
     public void onEnable() {
@@ -33,9 +36,5 @@ public class BoostIntegrationPlugin extends JavaPlugin {
             getSLF4JLogger().error("An error occurred while polling for boost notifications", e);
             return null;
         }), 0, 1, TimeUnit.SECONDS);
-    }
-
-    public static @NotNull JavaPlugin getPlugin() {
-        return getPlugin(BoostIntegrationPlugin.class);
     }
 }
