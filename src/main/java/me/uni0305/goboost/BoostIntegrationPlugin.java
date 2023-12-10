@@ -15,6 +15,7 @@ public class BoostIntegrationPlugin extends JavaPlugin {
     public void onEnable() {
         YamlConfigurator.saveDefaultConfig();
         YamlConfigurator.reloadConfig();
+        new BoostCommand(this);
         new BoostEventListener(this);
         schedulePollingTask();
     }
